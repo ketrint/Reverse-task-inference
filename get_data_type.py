@@ -16,7 +16,7 @@ code_blocks = pd.read_csv('./notebooks_meta.csv')
 #openai_api_key = os.environ["OPENAI_API_KEY"]
 
 client = OpenAI(
-    api_key = "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"
+    api_key = "YOUR_API_KEY"
 )
 
 # Defining prompts
