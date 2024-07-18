@@ -1,4 +1,6 @@
 *Parsing and Data Collection for Code4MLv2 Dataset*
+[![DOI](https://zenodo.org/badge/829904747.svg)](https://zenodo.org/doi/10.5281/zenodo.12772256)
+
 
 This collection of scripts and notebooks aims to extract and gather different characteristics and background information from Kaggle notebooks. 
 
