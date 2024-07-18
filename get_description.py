@@ -1,13 +1,20 @@
 import pandas as pd
 import openai
 import tqdm
+import os
+from os.path import join, dirname
+from dotenv import load_dotenv
 
-api_key = "YOUR_API_KEY"
-openai.api_key = api_key
+# Loading env variables
+dotenv_path = join(dirname(__file__), '.env')
+load_dotenv(dotenv_path)
 
-file_path = 'final_result.csv'
-new_file_path = 'final_result_code4ml_3.csv'
-data = pd.read_csv(file_path)[1:101]
+openai_api_key = os.environ["OPENAI_API_KEY"]
+openai.api_key = openai_api_key
+
+file_path = './data_type_res/data_type.csv'
+new_file_path = 'final_result_code4ml.csv'
+data = pd.read_csv(file_path)
 
 # Add columns for results
 if 'last_result' not in data.columns:
@@ -113,6 +120,7 @@ def get_openai_response_gpt4(prompt, role="user"):
 
 print('Updated code')
 # Process each row in the CSV file
+cnt = 0
 for idx, row in tqdm.tqdm(data.iterrows(), total=data.shape[0]):
     code = row['code']
     
@@ -138,7 +146,13 @@ for idx, row in tqdm.tqdm(data.iterrows(), total=data.shape[0]):
             
             # Save the improved result and new score
             data.at[idx, 'last_result'] = task_description
-            data.at[idx, 'last_score'] = score
+            break
+
+        cnt += 1
+
+        if cnt % 10 == 0:
+            data.to_csv(f'final_result_code4ml_{cnt}.csv', index=False)
+
     except openai.error.InvalidRequestError:
         print('OPENAI ERROR')
 
